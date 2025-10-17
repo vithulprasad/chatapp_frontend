@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Create an axios instance
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000", 
+  // baseURL: "http://localhost:3000",
+   baseURL: "https://chatapp-backend-680y.onrender.com", 
   timeout: 10000, 
 });
 

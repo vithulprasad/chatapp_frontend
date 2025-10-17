@@ -11,7 +11,7 @@ import Chat from "./pages/chat/Chat";
 
 import socketIO from 'socket.io-client';
 
-const socket = socketIO.connect("http://localhost:3000", {
+const socket = socketIO.connect("https://chatapp-backend-680y.onrender.com", {
   query: { token:localStorage.getItem("token") },
 });
 
