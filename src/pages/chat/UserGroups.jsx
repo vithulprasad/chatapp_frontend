@@ -26,8 +26,9 @@ function UserGroups({socket}) {
   }
 
   useEffect(() => {
-    socket.disconnect()
+   
     fetchUsers();
+     socket.disconnect()
   }, []);
 
   return (
