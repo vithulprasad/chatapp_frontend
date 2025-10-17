@@ -31,7 +31,7 @@ function Chat({socket}) {
       <div className="">
         {activeTab === "Chat" && <Chats socket={socket}/>}
         {activeTab === "Requests" && <Request socket={socket}/>}
-        {activeTab === "Users/Group" && <UserGroups socket={socket}/>}
+        {activeTab === "Site Users" && <UserGroups socket={socket}/>}
       </div>
     </div>
   );
