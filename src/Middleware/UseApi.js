@@ -48,6 +48,7 @@ export const useApi = () => {
 
       return { error: false, data: response.data };
     } catch (error) {
+         dispatch(hideLoader())
        toast.error(
       error.response?.data?.message || error.message || "Something went wrong!",
       {
