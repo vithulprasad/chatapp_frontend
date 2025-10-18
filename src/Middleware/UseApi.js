@@ -1,71 +1,55 @@
-
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { hideLoader, showLoader } from "../store/slice/loaderReducer";
 
 
-
-export const UseApi = async (apiCall, show = false) => {
-  try {
-
-
-    const response = await apiCall;
-
-
-    // ✅ Success toast
-    if (response.status === 200 && show) {
-      toast.success(response.data.message || "Success!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-        style: {
-          background: "#1e3a8a",
-          color: "white",
-      
-        },
-      });
-    }
-
-    // ✅ Handle non-200 manually
-    if (response.status !== 200) {
-      if(response.status == 403){
-        localStorage.clear()
-        window.location.reload()
+export const useApi = () => {
+  const dispatch = useDispatch()
+  const callApi = async (apiCall, show = false) => {
+    try {
+      dispatch(showLoader())
+      const response = await apiCall;
+       dispatch(hideLoader())
+      if (response.status === 200 && show) {
+        toast.success(response.data.message || "Success!", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+          style: {
+            background: "#1e3a8a",
+            color: "white",
+          },
+        });
       }
-      toast.error(response.data?.message || "Unexpected response!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-        style: {
-          background: "#1e3a8a",
-          color: "red",
-     
-        },
-      });
-    }
+      if (response.status !== 200) {
+        if (response.status == 403) {
+          localStorage.clear();
+          window.location.reload();
+        }
+        toast.error(response.data?.message || "Unexpected response!", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+          style: {
+            background: "#1e3a8a",
+            color: "red",
+          },
+        });
+      }
 
-    return {
-      error: false,
-      status: response.status,
-      message: response.data?.message || "success",
-      data: response.data || null,
-    };
-  } catch (error) {
-    console.log("API Error:", error);
-
-    // ✅ Show error toast here
-    toast.error(
-      error.response?.data?.message ||
-        error.message ||
-        "Something went wrong!",
+      return { error: false, data: response.data };
+    } catch (error) {
+       toast.error(
+      error.response?.data?.message || error.message || "Something went wrong!",
       {
         position: "bottom-left",
         autoClose: 3000,
@@ -77,19 +61,13 @@ export const UseApi = async (apiCall, show = false) => {
         style: {
           background: "#7f1d1d",
           color: "white",
-      
         },
       }
     );
 
-    return {
-      error: true,
-      status: error.response?.status || 500,
-      message:
-        error.response?.data?.message ||
-        error.message ||
-        "Something went wrong!",
-      data: error.response?.data || null,
-    };
-  }
+      return { error: true, data: null };
+    }
+  };
+
+  return { callApi };
 };

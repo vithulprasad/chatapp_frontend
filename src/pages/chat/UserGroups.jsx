@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { list_user, send_request } from "../../apis/apis";
-import { UseApi } from "../../Middleware/UseApi";
+import { useApi } from "../../Middleware/UseApi";
 
 function UserGroups({socket}) {
   const [users, set_users] = useState([]);
-
+  const {callApi} = useApi()
   const fetchUsers = async () => {
     try {
        
-      const res = await UseApi(list_user());
+      const res = await callApi(list_user());
       if (res?.data?.data) {
         console.log(res);
         set_users(res.data.data);
@@ -22,7 +22,7 @@ function UserGroups({socket}) {
     let data = {
         id:id
     }
-     await UseApi(send_request(data),true)
+     await callApi(send_request(data),true)
   }
 
   useEffect(() => {

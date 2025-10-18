@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { UseApi } from "../../Middleware/UseApi";
+import { useApi } from "../../Middleware/UseApi";
 import { chat_user, private_chat } from "../../apis/apis";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 function Chats({ socket }) {
   const [users, set_users] = useState([]);
   const [selectedChat, set_selectedChat] = useState(null);
-
+  const {callApi} = useApi()
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -20,7 +20,7 @@ function Chats({ socket }) {
   const messageRef = useRef();
 
   const fetchUsers = async () => {
-    const res = await UseApi(chat_user());
+    const res = await callApi(chat_user());
     if (res && res.data?.data) {
       const usersWithStatus = res.data.data.map((user) => ({
         ...user,
@@ -36,7 +36,7 @@ function Chats({ socket }) {
     if (!searchParams.get("chat")) {
       return;
     }
-    const res = await UseApi(private_chat(searchParams.get("chat")));
+    const res = await callApi(private_chat(searchParams.get("chat")));
     if (res) {
       set_chat_messages(res.data.data);
     }

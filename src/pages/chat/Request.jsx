@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { list_my_users, accept_request } from "../../apis/apis";
-import { UseApi } from "../../Middleware/UseApi";
+import { useApi } from "../../Middleware/UseApi";
 
 function Request({socket}) {
   const [my_request, set_my_request] = useState([]);
   const [friends_request, set_friends_request] = useState([]);
-
+  const {callApi} = useApi()
   const fetchUsers = async () => {
     try {
-      const res = await UseApi(list_my_users());
+      const res = await callApi(list_my_users());
       if (res?.data?.data) {
         const allUsers = res.data.data;
 
@@ -30,7 +30,7 @@ function Request({socket}) {
 
   const handle_invite = async (id) => {
     const data = { id:id };
-    await UseApi(accept_request(data), true);
+    await callApi(accept_request(data), true);
     fetchUsers(); // refresh list after accepting
   };
 

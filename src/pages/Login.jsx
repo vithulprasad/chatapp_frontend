@@ -4,15 +4,16 @@ import { login } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slice/authReducer";
-import { UseApi } from "../Middleware/UseApi";
+import { useApi } from "../Middleware/UseApi";
 function Login() {
    const navigate = useNavigate()
    const dispatch = useDispatch()
+   const {callApi} = useApi()
   const google_auth = async (data) => {
     console.log(data, "this is the data");
-    const res =await UseApi(login(data),true)
+    const res =await callApi(login(data),true)
     if(res){
-        localStorage.setItem("token",res.data.token)
+          localStorage.setItem("token",res.data.token)
           localStorage.setItem("user",res.data.user.name)
         dispatch(setUser(res.data.user.name))
 
