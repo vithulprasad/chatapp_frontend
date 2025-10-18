@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { hideLoader, showLoader } from "../store/slice/loaderReducer";
@@ -7,10 +7,10 @@ import { hideLoader, showLoader } from "../store/slice/loaderReducer";
 
 export const UseApi = async (apiCall, show = false) => {
   try {
-    const dispatch = useDispatch()
-      dispatch(showLoader())
+
+
     const response = await apiCall;
-      dispatch(hideLoader())
+
 
     // ✅ Success toast
     if (response.status === 200 && show) {
