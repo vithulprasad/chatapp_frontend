@@ -13,6 +13,7 @@ import socketIO from "socket.io-client";
 import { useSelector } from "react-redux";
 
 const socket = socketIO.connect("https://chatapp-backend-680y.onrender.com", {
+// const socket = socketIO.connect("http://localhost:3000", {
   query: { token: localStorage.getItem("token") },
 });
 
